@@ -45,7 +45,6 @@ Public Class Form1
             Else
                 NN(3) = 0     'Degree of Memerbership
             End If
-            'MessageBox.Show("Input=" & input.ToString & ", 0= " & NN(0).ToString & ", 1= " & NN(1).ToString & ", 2=" & NN(2).ToString & ",DOM=" & NN(3).ToString)
         End If
         TextBox2.Text = NN(3).ToString  'Input DOM
 
@@ -89,9 +88,9 @@ Public Class Form1
         TextBox5.Text = P(3).ToString  'Input DOM
 
         If CheckBox5.Checked Then '===== PP set=======
-            PP(0) = NumericUpDown5.Value
-            PP(1) = NumericUpDown6.Value
-            PP(2) = NumericUpDown10.Value
+            PP(0) = NumericUpDown16.Value
+            PP(1) = NumericUpDown15.Value
+            PP(2) = NumericUpDown14.Value
             PP(4) = NumericUpDown20.Value.ToString
             If (input > PP(0) And input < PP(2)) Then
                 PP(3) = Calc_DOM(input, PP(0), PP(1), PP(2))
@@ -131,13 +130,25 @@ Public Class Form1
         'Calculate the Degree Of Memebership
         Dim rc, dom As Double
 
-        If p1 = p2 Then MessageBox.Show("Problem with RC calc")
-        rc = 1 / (p1 - p2)
-        dom = (inputt - p1) * rc
-        Return (dom)
+        Select Case True
+            Case inputt < p0
+                dom = 0
+            Case inputt > p2
+                dom = 0
+            Case inputt > p0 AndAlso inputt <= p1
+                rc = 1 / (p1 - p0)
+                dom = 1 + (inputt - p1) * rc
+            Case inputt > p1 AndAlso inputt <= p2
+                rc = 1 / (p2 - p1)
+                dom = (p2 - inputt) * rc
+            Case Else
+                MessageBox.Show("Input=" & input.ToString & ", p0= " & p0.ToString & ", p1= " & p1.ToString & ", p2=" & p2.ToString)
+        End Select
+
+        Return (Round(dom, 2))
     End Function
 
-    Private Sub MakeNewBitmap2() 'Balancer picture
+    Private Sub MakeNewBitmap2() 'Picture input sets
         Dim wid As Integer = PictureBox2.Size.Width
         Dim hgt As Integer = PictureBox2.Size.Height
         r_Bitmap = New Bitmap(wid, hgt)
@@ -155,18 +166,24 @@ Public Class Form1
         Dim DOM1_height As Integer  'DOM 1 line
         Dim h_scale As Double       'horizonral scale
         Dim pen1 As New System.Drawing.Pen(Color.Yellow, 2) 'Used in the graph
-        Dim pen2 As New System.Drawing.Pen(Color.White, 2) 'Used in the graph
+        Dim pen2 As New System.Drawing.Pen(Color.Aqua, 2) 'Used in the graph
         Dim pen3 As New System.Drawing.Pen(Color.Green, 2) 'Used in the graph
         Dim pen4 As New System.Drawing.Pen(Color.Blue, 2) 'Used in the graph
         Dim pen5 As New System.Drawing.Pen(Color.Red, 2) 'Used in the graph
 
+        CheckBox1.BackColor = Color.Yellow
+        CheckBox2.BackColor = Color.Aqua
+        CheckBox3.BackColor = Color.Green
+        CheckBox4.BackColor = Color.Blue
+        CheckBox5.BackColor = Color.Red
+
         hoog = PictureBox2.Size.Height - 10
         breed = PictureBox2.Size.Width - 10
 
-        DOM0_height = 20
-        DOM1_height = PictureBox2.Size.Height - 20
-        x_offset = 10
-        left_margin = 50
+        DOM0_height = 20                            'Horizontal line
+        DOM1_height = PictureBox2.Size.Height - 20  'Horizontal line
+        x_offset = 10                               'For looks
+        left_margin = 50                            'For looks
 
         h_scale = (PictureBox2.Size.Width - left_margin - x_offset) / Input_Range
 
@@ -177,7 +194,7 @@ Public Class Form1
             q_Graphics.DrawLine(pen2, left_margin, DOM0_height, breed, DOM0_height)
             q_Graphics.DrawLine(pen2, left_margin, DOM1_height, breed, DOM1_height)
 
-            'Draw DOM lines
+            'Draw DOM lines text
             Dim drawFont As New Font("Arial", 8)
             Dim drawBrush As New SolidBrush(Color.White)
             Dim drawPoint1 As New PointF(0, DOM0_height - 5)
@@ -193,7 +210,7 @@ Public Class Form1
                 If (NN(1) <> NN(2)) Then q_Graphics.DrawLine(pen1, x1, DOM0_height, x2, DOM1_height)
             End If
 
-                If CheckBox2.Checked Then 'Draw N_input_set 
+            If CheckBox2.Checked Then 'Draw N_input_set 
                 x0 = left_margin + (N(0) + x_offset) * h_scale
                 x1 = left_margin + (N(1) + x_offset) * h_scale
                 x2 = left_margin + (N(2) + x_offset) * h_scale
@@ -217,7 +234,7 @@ Public Class Form1
                 If (P(1) <> P(2)) Then q_Graphics.DrawLine(pen4, x1, DOM0_height, x2, DOM1_height)
             End If
 
-            If CheckBox5.Checked Then 'Draw P_input_set 
+            If CheckBox5.Checked Then 'Draw PP_input_set 
                 x0 = left_margin + (PP(0) + x_offset) * h_scale
                 x1 = left_margin + (PP(1) + x_offset) * h_scale
                 x2 = left_margin + (PP(2) + x_offset) * h_scale
@@ -229,6 +246,4 @@ Public Class Form1
             MsgBox("Error 105 writing problem" & ex.Message)
         End Try
     End Sub
-
-
 End Class

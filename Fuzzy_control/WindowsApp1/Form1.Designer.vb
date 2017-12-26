@@ -975,7 +975,7 @@ Partial Class Form1
         Me.NumericUpDown1.Size = New System.Drawing.Size(69, 20)
         Me.NumericUpDown1.TabIndex = 26
         Me.NumericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.NumericUpDown1.Value = New Decimal(New Integer() {9, 0, 0, 0})
+        Me.NumericUpDown1.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
         'Label4
         '
