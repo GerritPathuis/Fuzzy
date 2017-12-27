@@ -27,8 +27,11 @@ Public Class Form1
     Public Output_Range As Double
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click, NumericUpDown9.ValueChanged, NumericUpDown8.ValueChanged, NumericUpDown7.ValueChanged, NumericUpDown6.ValueChanged, NumericUpDown5.ValueChanged, NumericUpDown4.ValueChanged, NumericUpDown3.ValueChanged, NumericUpDown2.ValueChanged, NumericUpDown16.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown13.ValueChanged, NumericUpDown12.ValueChanged, NumericUpDown11.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown1.ValueChanged, NumericUpDown31.ValueChanged, NumericUpDown30.ValueChanged, NumericUpDown29.ValueChanged, NumericUpDown28.ValueChanged, NumericUpDown20.ValueChanged, CheckBox5.CheckedChanged, CheckBox4.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox1.CheckedChanged
+
+        check_inputs()
         Input_Range = 20    'Volt (to do)
         Output_Range = 60   'Volt (to do)
+
         TextBox18.Text = Input_Range.ToString
         TextBox19.Text = Output_Range.ToString
 
@@ -246,4 +249,30 @@ Public Class Form1
             MsgBox("Error 105 writing problem" & ex.Message)
         End Try
     End Sub
+    Private Sub check_inputs()
+        Dim input(20) As Double
+        Dim pointer As Integer = 0
+
+        For i = 0 To 2
+            input(pointer) = PP(i)
+            pointer += 1
+        Next
+        For i = 0 To 2
+            input(pointer) = P(i)
+            pointer += 1
+        Next
+        For i = 0 To 2
+            input(pointer) = Z(i)
+            pointer += 1
+        Next
+        For i = 0 To 2
+            input(pointer) = N(i)
+            pointer += 1
+        Next
+        For i = 0 To 2
+            input(pointer) = PP(i)
+            pointer += 1
+        Next
+    End Sub
+
 End Class
